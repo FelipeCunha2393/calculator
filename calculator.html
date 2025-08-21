@@ -175,6 +175,20 @@
     const [result, setResult] = React.useState('');
     
     function handleInputClick(input) {
+      
+      if(input === "C"){
+        setOperation("");
+        setResult("");
+        return;
+      }
+      
+
+      if (input === "CE") {
+        setResult("");
+        setOperation(operation.slice(0, -2));
+        return;
+      }
+
       if (input === "="){
         const operationResult = eval(operation.replace(/,/g, '.'));
         const parsedResult = operationResult.toString()?.replace(/\./g, ',');
