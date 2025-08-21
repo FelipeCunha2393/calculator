@@ -196,6 +196,16 @@
         return
       }
 
+      if (result) {
+        
+        setOperation(isNaN(input)
+        ? `${result}${input === "," ? "" : " "}${input}`
+        : input)
+        setResult("");
+        return;
+      }
+
+
       if ( input === "," && !operation.endsWith(',')) {
         setOperation(`${operation},`);
         return;
