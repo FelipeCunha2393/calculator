@@ -43,14 +43,14 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 <script type="text/babel">
-  const textVariants = {
+    const textVariants = {
     default: 'text-xl',
     muted: 'text-xl text-(--text-secondary)',
     heading: 'text-2xl',
     blast: 'text-3xl'
   }
 
-  function Text({
+    function Text({
     as = 'span', 
     variant = 'default',
     className,
@@ -67,12 +67,12 @@
     )
   }
 
-  const buttonVariants = {
+    const buttonVariants = {
     default: 'bg-(--background)',
     primary: 'bg-(--primary)'
   }
 
-  function Button({ 
+    function Button({ 
     variant = 'default',
     className,
     children,
@@ -99,7 +99,7 @@
   
   }
 
-  function Card({children, className, ...props}){
+    function Card({children, className, ...props}){
     return (
       <div className={`
         bg-(--background) shadow-(--shadow)
@@ -112,7 +112,7 @@
     )
   }
   
-  const buttons = [
+    const buttons = [
     [
       {input: "CE" },
       {input: "C", className: "flex-1 h-16" },
@@ -144,8 +144,8 @@
 
   ];
   
-  const  CalculatorContext = React.createContext();
-  function CalculatorProvider({ children }) {
+    const  CalculatorContext = React.createContext();
+    function CalculatorProvider({ children }) {
     const [ history, setHistory] = React.useState([]);
     const historyStorageKey = 'history';
 
@@ -177,39 +177,12 @@
     )
   }
   
-  function CalculatorDisplay({ operation, result}){
-  return(
-    <div className={`
-          flex flex-col gap-2 px-[1.375rem]
-          cursor-default select-none  
-          
-        `}
-        >
-          <Text 
-            as="div"
-            variant="muted" 
-            className="flex itens-center justify-end h-7"
-          >
-            {result && operation}
-          </Text>
-          <div className={`
-            flex items-center justify-between h-9  
-          `}>
-            <Text variant="muted">=</Text>
-            <Text variant="blast">{result || operation}</Text>
-
-          </div>
-        </div>
-  )
-}
-
-  function Calculator() {
+    function useCalculator() {
     const [operation, setOperation] = React.useState('');
     const [result, setResult] = React.useState('');
     const { updateHistory } = React.useContext(CalculatorContext);
-    
-    function handleInputClick(input) {
-      
+
+    function doOperation(input) {
       if(input === "C"){
         setOperation("");
         setResult("");
@@ -250,6 +223,47 @@
 
     }
     
+
+    return {
+      operation,
+      result,
+      doOperation
+    }
+  }
+
+    function CalculatorDisplay({ operation, result}){
+  return(
+    <div className={`
+          flex flex-col gap-2 px-[1.375rem]
+          cursor-default select-none  
+          
+        `}
+        >
+          <Text 
+            as="div"
+            variant="muted" 
+            className="flex itens-center justify-end h-7"
+          >
+            {result && operation}
+          </Text>
+          <div className={`
+            flex items-center justify-between h-9  
+          `}>
+            <Text variant="muted">=</Text>
+            <Text variant="blast">{result || operation}</Text>
+
+          </div>
+        </div>
+  )
+}
+
+    function Calculator() {
+    const {operation, result, doOperation} = useCalculator();
+    
+    function handleInputClick(input) {
+      doOperation(input);
+    }  
+    
     return (
       <Card className={`
         flex flex-col gap-[1.625rem] w-[22.25rem]
@@ -285,7 +299,7 @@
 
   }
 
-  function OperationHistory(){
+    function OperationHistory(){
     const { history } = React.useContext(CalculatorContext);
 
     return (
@@ -308,7 +322,7 @@
     )
   }
 
-  function App(){
+    function App(){
     return (
       <main className={`
         py-28 px-4 sm:px-10
@@ -325,7 +339,7 @@
     )
   }
 
-  ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />)
 </script>
 
 </body>
